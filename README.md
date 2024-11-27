@@ -29,10 +29,10 @@ Example Response:
 In order to execute this api we need to have docker.
 Commands to execute in order to run this api:
 
-1. { cd receipt-processor }
-2. { docker build -t receipt-processor-api . }
-3. { docker run -p 5000:8000 receipt-processor-api }
+1. ``` cd FetchRewards ```
+2. ```docker build -t receipt-processor-api .```
+3. ```docker run -p 5000:8000 receipt-processor-api ```
 
-The POST API for processing a receipt is http://127.0.0.1:5000/receipts/process
+The POST API for processing a receipt is http://127.0.0.1:5000/receipts/process. This will return a unique uuid as response.
 The GET API for getting the points for a particular receipt with a give id(unique uuid) http://127.0.0.1:5000/receipts/{id}/points
 
