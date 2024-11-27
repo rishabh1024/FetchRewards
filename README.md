@@ -36,3 +36,4 @@ Commands to execute in order to run this api:
 The POST API for processing a receipt is http://127.0.0.1:5000/receipts/process. This will return a unique uuid as response.
 The GET API for getting the points for a particular receipt with a give id(unique uuid) http://127.0.0.1:5000/receipts/{id}/points
 
+THE API CAN ALSO BE EXECUTED USING SWAGGER UI: http://127.0.0.1:5000/docs#/
