@@ -16,24 +16,50 @@ class Item(BaseModel):
     """
     Represents an item in a receipt.
     """
-
-    # Matches the pattern specified
     shortDescription: str = Field(..., pattern=r"^[\w\s\-]+$")
-    # Ensure price is a float with two decimal places
     price: str = Field(..., pattern=r"^\d+\.\d{2}$")
 
 
 class Receipt(BaseModel):
-    # Matches the pattern specified
     retailer: str = Field(..., pattern=r"^[\w\s\-&]+$")
-    # Ensure total is a float with two decimal places
-    total: str = Field(..., pattern=r"^\d+\.\d{2}$")
-    items: List[Item]
-    purchaseDate: str
-    purchaseTime: str
+    total: str = Field(default="0.00", pattern=r"^\d+\.\d{2}$")
+    items: List[Item] = Field(...)
+    purchaseDate: str = Field(...)
+    purchaseTime: str = Field(...)
 
 
-@app.post("/receipts/process")
+@app.post("/receipts/process", responses={
+        200: {
+            "content": {
+                "application/json": {
+                    "example": {"id": "7fb1377b-b223-49d9-a31a-5a02701dd310"}
+                }
+            }
+        }
+    },
+    openapi_extra={
+        "requestBody": {
+            "content": {
+                "application/json": {
+                    "examples": {
+                        "valid_receipt": {
+                            "summary": "Valid Receipt Example",
+                            "value": {
+                                "retailer": "Target",
+                                "total": "35.35",
+                                "purchaseDate": "2022-01-01",
+                                "purchaseTime": "13:01",
+                                "items": [
+                                    {"shortDescription": "Mountain Dew 12PK", "price": "6.49"},
+                                    {"shortDescription": "Emils Cheese Pizza", "price": "12.25"}
+                                ]
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    })
 def process_receipt(receipt: Receipt):
     """
     Process the receipt and generate a unique ID.
