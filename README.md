@@ -1,39 +1,73 @@
 # FetchRewards
+
 Receipt Processor Challenge for Fetch Rewards
 
+## Overview
 
-Summary of API Specification
-Endpoint: Process Receipts
+This project is a receipt processor API built with FastAPI. It allows users to submit receipts for processing and retrieve the points awarded for each receipt.
 
-    Path: /receipts/process
-    Method: POST
-    Payload: Receipt JSON
-    Response: JSON containing an id for the receipt.
+## API Endpoints
 
-Example Response:
+### 1. Process Receipts
 
-{ "id": "7fb1377b-b223-49d9-a31a-5a02701dd310" }
+- **Endpoint**: `/receipts/process`
+- **Method**: `POST`
+- **Description**: Submits a receipt for processing.
+- **Request Body**: JSON object representing the receipt.
+- **Response**: JSON object containing a unique ID for the receipt.
 
-Endpoint: Get Points
+**Example Response**:
+```json
+{
+  "id": "7fb1377b-b223-49d9-a31a-5a02701dd310"
+}
+```
 
-    Path: /receipts/{id}/points
-    Method: GET
-    Response: A JSON object containing the number of points awarded.
+### 2. Get Points
 
-A simple Getter endpoint that looks up the receipt by the ID and returns an object specifying the points awarded.
+- **Endpoint**: `/receipts/{id}/points`
+- **Method**: `GET`
+- **Description**: Retrieves the points awarded for the receipt with the given ID.
+- **Response**: JSON object containing the number of points awarded.
 
-Example Response:
+**Example Response**:
+```json
+{
+  "points": 32
+}
+```
 
-{ "points": 32 }
+## Running the API with Docker
 
-In order to execute this api we need to have docker.
-Commands to execute in order to run this api:
+To run the API using Docker, follow these steps:
 
-1. ``` cd FetchRewards ```
-2. ```docker build -t receipt-processor-api .```
-3. ```docker run -p 5000:8000 receipt-processor-api ```
+1. Navigate to the project directory:
+   ```sh
+   cd FetchRewards
+   ```
 
-The POST API for processing a receipt is http://127.0.0.1:5000/receipts/process. This will return a unique uuid as response.
-The GET API for getting the points for a particular receipt with a give id(unique uuid) http://127.0.0.1:5000/receipts/{id}/points
+2. Build the Docker image:
+   ```sh
+   docker build -t receipt-processor-api .
+   ```
 
-THE API CAN ALSO BE EXECUTED USING SWAGGER UI: http://127.0.0.1:5000/docs#/
+3. Run the Docker container:
+   ```sh
+   docker run -p 5000:8000 receipt-processor-api
+   ```
+
+The API will be accessible at `http://127.0.0.1:5000`.
+
+## Using the API
+
+### Process a Receipt
+
+To process a receipt, send a `POST` request to `http://127.0.0.1:5000/receipts/process` with the receipt data in the request body. This will return a unique ID for the receipt.
+
+### Get Points for a Receipt
+
+To get the points for a receipt, send a `GET` request to `http://127.0.0.1:5000/receipts/{id}/points` with the receipt ID in the URL. This will return the number of points awarded for the receipt.
+
+## Swagger UI
+
+You can also interact with the API using the Swagger UI at `http://127.0.0.1:5000/docs`.
