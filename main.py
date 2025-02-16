@@ -60,6 +60,9 @@ class Receipt(BaseModel):
             }
         }
     })
+
+
+
 def process_receipt(receipt: Receipt):
     """
     Process the receipt and generate a unique ID.
@@ -72,7 +75,36 @@ def process_receipt(receipt: Receipt):
     return {"id": receipt_id}
 
 
-@app.get("/receipts/{id}/points")
+@app.get("/receipts/{id}/points", responses={
+    200: {
+        "content": {
+        "application/json": {
+            "example": {"points": 100}
+        }
+        }
+    },
+    404: {
+        "description": "Receipt ID not found",
+        "content": {
+        "application/json": {
+            "example": {"detail": "Receipt ID not found"}
+        }
+        }
+    }
+    },
+    openapi_extra={
+    "parameters": [
+        {
+        "name": "id",
+        "in": "path",
+        "required": True,
+        "schema": {
+            "type": "string"
+        },
+        "description": "The ID of the receipt"
+        }
+    ]
+    })
 def get_points(id: str):
     """
     Retrieve the points for the given receipt ID.
